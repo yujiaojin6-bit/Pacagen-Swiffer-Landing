@@ -1114,6 +1114,24 @@
         opacity: 0.8 !important;
       }
     }
+
+    /* Mop swing animation */
+    @keyframes mopSwing {
+      0% {
+        transform: rotate(-3deg);
+      }
+      50% {
+        transform: rotate(3deg);
+      }
+      100% {
+        transform: rotate(-3deg);
+      }
+    }
+
+    .compatibility img[src*="mop.gif"] {
+      animation: mopSwing 2s ease-in-out infinite;
+      transform-origin: top center;
+    }
   </style>
 </head>
 <body>
