@@ -528,6 +528,7 @@
     
     .comparison-table thead .max-column {
       background: var(--green-dark);
+      color: white;
     }
     
     .table-footnote {
@@ -1103,6 +1104,27 @@
       .final-cta h2 {
         font-size: 1.5rem;
       }
+
+      /* Your Mop Still Works section - mobile layout */
+      [style*="flex: 1; max-width: 75%"],
+      [style*="gap: 40px"] {
+        flex-direction: column !important;
+      }
+
+      [style*="flex: 1; max-width: 75%"] {
+        max-width: 100% !important;
+      }
+
+      [style*="flex: 0 1 25%"] {
+        flex: 1 !important;
+        width: 100%;
+        margin-top: 30px;
+      }
+
+      [style*="max-width: 180px"] {
+        max-width: 220px !important;
+        margin: 0 auto;
+      }
     }
   </style>
 </head>
@@ -1323,7 +1345,7 @@
         <p class="price-disclaimer">Based on 1 cloth per clean @ $14.99 per 12-pack</p>
       </div>
     </div>
-    <p style="max-width: 800px; margin: 0 auto;">A higher price per pack doesn't have to mean a higher cost per clean. If one MAX cloth can replace multiple standard refills in a cleaning session, you could spend less on wet cloths while stopping less often.</p>
+    <p style="max-width: 800px; margin: 0 auto;">Pay a little more for the pack. Use fewer cloths every time you clean. That means less money spent, and less stopping to change them.</p>
     <p class="price-disclaimer" style="text-align: center; margin-top: 15px; max-width: 800px; margin-left: auto; margin-right: auto;"></p>
   </div>
 </section>
@@ -1332,8 +1354,17 @@
 <section class="compatibility" style="background: #F8F9F4; padding: 60px 20px; text-align: center;">
   <div style="max-width: 800px; margin: 0 auto;">
     <h2 style="font-size: 2rem; margin-bottom: 20px;">Your Mop Still Works. Keep It.</h2>
-    <p style="font-size: 1.1rem; color: #555; line-height: 1.8; margin-bottom: 30px;">You already own the mop. You already buy the refills. MAX is designed to fit right into that routine.</p>
-    <h3 style="font-size: 1.3rem; color: var(--green-dark); font-weight: 600;">No New Mop. No New Routine. Just an Upgraded Refill.</h3>
+    <div style="display: flex; align-items: center; gap: 40px;">
+      <div style="flex: 1; max-width: 75%;">
+        <p style="font-size: 1.1rem; color: #555; line-height: 1.8; margin-bottom: 30px;">You already own the mop. You already buy the refills. MAX is designed to fit right into that routine.</p>
+        <h3 style="font-size: 1.3rem; color: var(--green-dark); font-weight: 600;">No New Mop. No New Routine. Just an Upgraded Refill.</h3>
+      </div>
+      <div style="flex: 0 1 25%; display: flex; align-items: center; justify-content: center;">
+        <img src="assets/mop.gif" alt="Swiffer Sweeper mop" style="width: 100%; max-width: 180px; height: auto; object-fit: contain;">
+      </div>
+    </div>
+
+    <!-- Mobile responsive CSS will be added below -->
   </div>
 </section>
 
