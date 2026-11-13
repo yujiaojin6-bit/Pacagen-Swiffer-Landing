@@ -1106,13 +1106,24 @@
       }
 
       /* Your Mop Still Works section - mobile adjustments */
+      .compatibility {
+        padding: 40px 20px !important;
+      }
+
+      .compatibility > div {
+        flex-direction: column !important;
+        gap: 20px !important;
+      }
+
       .compatibility img[src*="mop.gif"] {
-        position: static !important;
-        display: block;
-        margin: 30px auto 0;
         width: 80px !important;
+        margin: 0 auto 20px !important;
         opacity: 0.8 !important;
         animation: mopSwing 2s ease-in-out infinite !important;
+      }
+
+      .compatibility > div > div {
+        text-align: center !important;
       }
     }
 
@@ -1358,14 +1369,17 @@
 </section>
 
 <!-- YOUR MOP STILL WORKS -->
-<section class="compatibility" style="background: #F8F9F4; padding: 60px 20px; text-align: center; position: relative;">
-  <div style="max-width: 800px; margin: 0 auto; position: relative; z-index: 1;">
-    <h2 style="font-size: 2rem; margin-bottom: 20px;">Your Mop Still Works. Keep It.</h2>
-    <p style="font-size: 1.1rem; color: #555; line-height: 1.8; margin-bottom: 30px;">You already own the mop. You already buy the refills. MAX is designed to fit right into that routine.</p>
-    <h3 style="font-size: 1.3rem; color: var(--green-dark); font-weight: 600;">No New Mop. No New Routine. Just an Upgraded Refill.</h3>
+<section class="compatibility" style="background: #F8F9F4; padding: 60px 20px; text-align: center;">
+  <div style="display: flex; align-items: flex-start; justify-content: center; gap: 20px; max-width: 900px; margin: 0 auto;">
+    <!-- Mop GIF on the left -->
+    <img src="assets/mop.gif" alt="Swiffer Sweeper mop" style="width: 100px; height: auto; max-width: 100px; object-fit: contain; opacity: 0.8; flex-shrink: 0; margin-top: 10px;">
+    <!-- Text content on the right -->
+    <div style="flex: 1; text-align: left;">
+      <h2 style="font-size: 2rem; margin-bottom: 20px; text-align: center;">Your Mop Still Works. Keep It.</h2>
+      <p style="font-size: 1.1rem; color: #555; line-height: 1.8; margin-bottom: 30px;">You already own the mop. You already buy the refills. MAX is designed to fit right into that routine.</p>
+      <h3 style="font-size: 1.3rem; color: var(--green-dark); font-weight: 600;">No New Mop. No New Routine. Just an Upgraded Refill.</h3>
+    </div>
   </div>
-  <!-- Decorative mop GIF in top-right corner -->
-  <img src="assets/mop.gif" alt="Swiffer Sweeper mop" style="position: absolute; top: 20px; right: 20px; width: 100px; height: auto; max-width: 100px; object-fit: contain; opacity: 0.8; z-index: 0; pointer-events: none;">
 </section>
 
 <!-- HOW TO USE -->
