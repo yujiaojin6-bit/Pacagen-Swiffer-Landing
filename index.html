@@ -1,452 +1,1796 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mop & Go MAX | Premium Swiffer Wet Cloths</title>
-    <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; line-height: 1.6; color: #222; }
-        .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
-        
-        /* Colors */
-        :root { --green-dark: #073E2F; --green-lime: #BDF34A; --cream: #F8F9F4; }
-        
-        /* Hero Section */
-        .hero { background: var(--cream); padding: 40px 0; margin-top: 60px; }
-        .hero-wrapper { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: center; }
-        .gallery { display: flex; flex-direction: column; }
-        .main-image { width: 100%; max-width: 500px; border-radius: 8px; overflow: hidden; background: white; }
-        .main-image img { width: 100%; height: auto; display: block; }
-        .thumbnails { display: flex; gap: 10px; margin-top: 15px; flex-wrap: wrap; }
-        .thumb { width: 80px; height: 80px; border: 2px solid transparent; cursor: pointer; border-radius: 4px; overflow: hidden; }
-        .thumb img { width: 100%; height: 100%; object-fit: cover; }
-        .thumb.active { border-color: var(--green-lime); }
-        
-        .product-info h1 { font-size: 2.5em; margin-bottom: 10px; color: var(--green-dark); font-weight: 700; }
-        .price { font-size: 1.8em; color: var(--green-lime); font-weight: 700; margin-bottom: 15px; }
-        .rating { font-size: 0.95em; color: #666; margin-bottom: 20px; }
-        .rating .stars { color: var(--green-lime); }
-        .description { color: #555; margin-bottom: 25px; font-size: 0.95em; line-height: 1.7; }
-        
-        .selector-group { display: flex; align-items: center; gap: 20px; margin-bottom: 25px; }
-        .qty-control { display: flex; align-items: center; border: 1px solid #ddd; border-radius: 4px; width: fit-content; }
-        .qty-control button { background: none; border: none; padding: 8px 15px; cursor: pointer; font-size: 1.2em; }
-        .qty-control input { border: none; width: 50px; text-align: center; padding: 8px 0; }
-        
-        .btn { padding: 12px 30px; border: none; border-radius: 4px; cursor: pointer; font-size: 1em; font-weight: 600; transition: 0.3s; }
-        .btn-primary { background: var(--green-lime); color: var(--green-dark); }
-        .btn-primary:hover { transform: scale(1.05); }
-        .btn-secondary { background: var(--green-dark); color: white; }
-        
-        .trust-badges { display: flex; gap: 20px; margin-top: 30px; padding-top: 20px; border-top: 1px solid #ddd; font-size: 0.85em; color: #666; }
-        .badge { display: flex; align-items: center; gap: 8px; }
-        .badge::before { content: "✓"; color: var(--green-lime); font-weight: bold; font-size: 1.2em; }
-        
-        /* Announcement Bar */
-        .announcement { background: var(--green-dark); color: white; padding: 12px 0; text-align: center; font-size: 0.9em; position: sticky; top: 0; z-index: 100; }
-        
-        /* Section */
-        .section { padding: 60px 0; }
-        .section h2 { font-size: 2em; margin-bottom: 30px; color: var(--green-dark); text-align: center; }
-        .section-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 30px; }
-        .card { padding: 25px; background: white; border: 1px solid #eee; border-radius: 8px; }
-        .card h3 { color: var(--green-dark); margin-bottom: 10px; }
-        
-        /* Accordion */
-        .accordion { margin-top: 30px; }
-        .accordion-item { border-bottom: 1px solid #ddd; margin-bottom: 0; }
-        .accordion-header { padding: 20px; background: white; cursor: pointer; display: flex; justify-content: space-between; align-items: center; font-weight: 600; }
-        .accordion-header:hover { background: var(--cream); }
-        .accordion-header .toggle { font-size: 1.5em; transition: 0.3s; }
-        .accordion-item.active .toggle { transform: rotate(180deg); }
-        .accordion-content { padding: 0 20px 20px; display: none; }
-        .accordion-item.active .accordion-content { display: block; animation: slideDown 0.3s ease; }
-        @keyframes slideDown { from { opacity: 0; height: 0; } to { opacity: 1; height: auto; } }
-        
-        /* Reviews */
-        .reviews-container { display: grid; grid-template-columns: 1fr 3fr; gap: 40px; margin-top: 40px; }
-        .review-stats h3 { color: var(--green-dark); margin-bottom: 20px; }
-        .avg-rating { font-size: 3em; font-weight: bold; color: var(--green-lime); }
-        .demo-label { background: var(--green-lime); color: var(--green-dark); padding: 8px 12px; border-radius: 4px; font-size: 0.8em; font-weight: 600; margin-bottom: 15px; display: inline-block; }
-        .rating-bars { margin-top: 20px; }
-        .rating-bar { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; font-size: 0.9em; }
-        .bar { flex: 1; height: 8px; background: #e0e0e0; border-radius: 4px; overflow: hidden; }
-        .bar-fill { height: 100%; background: var(--green-lime); }
-        
-        .review-list { max-height: 600px; overflow-y: auto; padding-right: 15px; }
-        .review-item { padding: 20px; border: 1px solid #eee; border-radius: 8px; margin-bottom: 15px; background: white; }
-        .review-star { color: var(--green-lime); }
-        .review-title { font-weight: 600; margin-bottom: 5px; }
-        .review-text { color: #555; font-size: 0.95em; margin-bottom: 10px; }
-        .review-author { font-size: 0.85em; color: #999; }
-        
-        /* CTA */
-        .cta-section { background: var(--green-dark); color: white; text-align: center; padding: 60px 20px; }
-        .cta-section h2 { color: white; margin-bottom: 20px; }
-        .cta-section p { font-size: 1.1em; margin-bottom: 30px; max-width: 600px; margin-left: auto; margin-right: auto; }
-        
-        /* Footer */
-        footer { background: #1a1a1a; color: #ccc; padding: 40px 0; }
-        .footer-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 30px; margin-bottom: 30px; }
-        .footer-section h4 { color: white; margin-bottom: 15px; }
-        .footer-section ul { list-style: none; }
-        .footer-section li { margin-bottom: 8px; }
-        .footer-section a { color: #ccc; text-decoration: none; font-size: 0.9em; }
-        .footer-section a:hover { color: var(--green-lime); }
-        .footer-bottom { border-top: 1px solid #333; padding-top: 20px; text-align: center; font-size: 0.85em; }
-        
-        /* Mobile */
-        @media (max-width: 768px) {
-            .hero-wrapper { grid-template-columns: 1fr; }
-            .product-info h1 { font-size: 1.8em; }
-            .reviews-container { grid-template-columns: 1fr; }
-            .selector-group { flex-direction: column; align-items: flex-start; }
-            .footer-grid { grid-template-columns: 1fr; }
-            .section h2 { font-size: 1.5em; }
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mop & Go MAX - Thicker Wet Cloth Refills</title>
+  <style>
+    :root {
+      --green-dark: #073E2F;
+      --green-lime: #BDF34A;
+      --cream: #F8F9F4;
+      --white: #FFFFFF;
+      --text-dark: #1a1a1a;
+      --text-light: #666;
+      --border: #e0e0e0;
+    }
+    
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    html {
+      scroll-behavior: smooth;
+    }
+    
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+      line-height: 1.6;
+      color: var(--text-dark);
+      overflow-x: hidden;
+    }
+    
+    img { max-width: 100%; height: auto; display: block; }
+    button { cursor: pointer; font-family: inherit; }
+    
+    /* ===== ANNOUNCEMENT BAR + NAVIGATION ===== */
+    .announcement {
+      background: var(--green-dark);
+      color: var(--cream);
+      text-align: center;
+      padding: 12px 20px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+    }
+    
+    nav {
+      background: var(--green-dark);
+      color: var(--cream);
+      padding: 16px 20px;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+    
+    nav > div {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    
+    .nav-brand {
+      font-size: 1.2rem;
+      font-weight: 700;
+      letter-spacing: 1px;
+    }
+    
+    .nav-items {
+      display: flex;
+      gap: 30px;
+      align-items: center;
+      list-style: none;
+    }
+    
+    .nav-items a {
+      color: var(--cream);
+      text-decoration: none;
+      font-size: 0.95rem;
+      transition: color 0.3s;
+      cursor: pointer;
+    }
+    
+    .nav-items a:hover {
+      color: var(--green-lime);
+    }
+    
+    .cart-icon {
+      font-size: 1.3rem;
+      cursor: pointer;
+    }
+    
+    /* ===== HERO SECTION ===== */
+    .hero {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 40px;
+      align-items: center;
+      max-width: 1200px;
+      margin: 60px auto;
+      padding: 0 20px;
+    }
+    
+    .hero-gallery {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+    
+    .main-image {
+      background: var(--cream);
+      border-radius: 8px;
+      padding: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 400px;
+      min-height: 400px;
+    }
+    
+    .main-image img {
+      max-height: 100%;
+      object-fit: contain;
+    }
+    
+    .thumbnails {
+      display: flex;
+      gap: 12px;
+    }
+    
+    .thumb {
+      width: 80px;
+      height: 80px;
+      background: var(--cream);
+      border: 2px solid transparent;
+      border-radius: 6px;
+      cursor: pointer;
+      padding: 8px;
+      transition: all 0.3s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    
+    .thumb:hover,
+    .thumb.active {
+      border-color: var(--green-dark);
+      transform: scale(1.05);
+    }
+    
+    .thumb img {
+      max-width: 100%;
+      max-height: 100%;
+      object-fit: contain;
+    }
+    
+    .hero-info h1 {
+      font-size: 2.5rem;
+      margin-bottom: 10px;
+      color: var(--green-dark);
+    }
+    
+    .hero-info .subtitle {
+      font-size: 1.2rem;
+      color: var(--text-light);
+      margin-bottom: 16px;
+    }
+    
+    .hero-price {
+      font-size: 2rem;
+      color: var(--green-dark);
+      font-weight: 700;
+      margin-bottom: 20px;
+    }
+    
+    .hero-description {
+      color: var(--text-light);
+      margin-bottom: 20px;
+      line-height: 1.8;
+    }
+    
+    .benefits-list {
+      display: flex;
+      gap: 16px;
+      margin-bottom: 24px;
+      flex-wrap: wrap;
+    }
+    
+    .benefit {
+      padding: 12px 16px;
+      background: var(--cream);
+      border-radius: 6px;
+      font-size: 0.95rem;
+      color: var(--green-dark);
+      font-weight: 600;
+    }
+    
+    .qty-selector {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+    
+    .qty-selector label {
+      font-weight: 600;
+    }
+    
+    .qty-selector input {
+      width: 60px;
+      padding: 8px;
+      border: 2px solid var(--border);
+      border-radius: 4px;
+      text-align: center;
+      font-size: 1rem;
+    }
+    
+    .qty-btn {
+      width: 40px;
+      height: 40px;
+      border: 2px solid var(--green-dark);
+      background: white;
+      color: var(--green-dark);
+      border-radius: 4px;
+      font-weight: 700;
+      transition: all 0.3s;
+    }
+    
+    .qty-btn:hover {
+      background: var(--green-dark);
+      color: white;
+    }
+    
+    .add-to-cart-btn {
+      background: var(--green-lime);
+      color: var(--green-dark);
+      border: none;
+      padding: 16px 40px;
+      font-size: 1rem;
+      font-weight: 700;
+      border-radius: 6px;
+      transition: all 0.3s;
+      width: 100%;
+      max-width: 300px;
+      margin-bottom: 16px;
+    }
+    
+    .add-to-cart-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(189, 243, 74, 0.3);
+    }
+    
+    .hero-note {
+      font-size: 0.85rem;
+      color: var(--text-light);
+      margin-bottom: 20px;
+      font-style: italic;
+    }
+    
+    .trust-badges {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      font-size: 0.85rem;
+      color: var(--text-light);
+    }
+    
+    .badge {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    
+    /* ===== PROBLEM SECTION ===== */
+    .problem {
+      background: var(--cream);
+      padding: 80px 20px;
+    }
+    
+    .problem-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 60px;
+      align-items: center;
+    }
+    
+    .problem-left {
+      text-align: center;
+    }
+    
+    .problem-gif {
+      width: 100%;
+      max-width: 400px;
+      border-radius: 12px;
+    }
+    
+    .problem-right {
+      text-align: left;
+    }
+    
+    .problem h2 {
+      font-size: 2.2rem;
+      margin-bottom: 20px;
+      color: var(--green-dark);
+      font-weight: 700;
+    }
+    
+    .problem p {
+      font-size: 1.05rem;
+      color: var(--text-light);
+      margin-bottom: 30px;
+      line-height: 1.7;
+    }
+    
+    .friction-chain {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      margin: 40px 0;
+      flex-wrap: wrap;
+    }
+    
+    .friction-item {
+      background: white;
+      border: 2px solid var(--green-dark);
+      border-radius: 8px;
+      padding: 15px 20px;
+      font-weight: 600;
+      color: var(--green-dark);
+      min-width: 120px;
+      text-align: center;
+    }
+    
+    .friction-arrow {
+      font-size: 1.5rem;
+      color: var(--green-lime);
+      font-weight: bold;
+    }
+    
+    .closing-statement {
+      font-size: 1.15rem;
+      color: var(--green-dark);
+      margin-top: 30px;
+      line-height: 1.7;
+    }
+    
+    @media (max-width: 768px) {
+      .problem-container {
+        grid-template-columns: 1fr;
+        gap: 30px;
+      }
+      
+      .problem-right {
+        text-align: center;
+      }
+      
+      .problem h2 {
+        font-size: 1.8rem;
+      }
+      
+      .friction-chain {
+        justify-content: center;
+      }
+      
+      .friction-arrow {
+        transform: rotate(90deg);
+      }
+    }
+    
+    /* ===== DIFFERENTIATORS ===== */
+    .differentiators {
+      max-width: 1200px;
+      margin: 80px auto;
+      padding: 0 20px;
+    }
+    
+    .diff-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 30px;
+    }
+    
+    .diff-card {
+      background: white;
+      padding: 32px;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      text-align: center;
+      transition: all 0.3s;
+    }
+    
+    .diff-card:hover {
+      box-shadow: 0 8px 24px rgba(0,0,0,0.1);
+      transform: translateY(-4px);
+    }
+    
+    .diff-card h3 {
+      color: var(--green-dark);
+      margin-bottom: 12px;
+      font-size: 1.3rem;
+    }
+    
+    .diff-card p {
+      color: var(--text-light);
+      font-size: 0.95rem;
+    }
+    
+    /* ===== COMPARISON SECTION ===== */
+    .comparison {
+      max-width: 1200px;
+      margin: 80px auto;
+      padding: 0 20px;
+    }
+    
+    .comparison h2 {
+      font-size: 2rem;
+      text-align: center;
+      margin-bottom: 50px;
+      color: var(--green-dark);
+    }
+    
+    .comparison-table-container {
+      overflow-x: auto;
+      background: var(--cream);
+      padding: 40px;
+      border-radius: 8px;
+    }
+    
+    .comparison-table {
+      width: 100%;
+      border-collapse: collapse;
+      background: var(--cream);
+    }
+    
+    .comparison-table thead {
+      background: var(--green-dark);
+      color: white;
+    }
+    
+    .comparison-table th {
+      padding: 18px 16px;
+      text-align: left;
+      font-weight: 600;
+      font-size: 0.95rem;
+    }
+    
+    .comparison-table td {
+      padding: 18px 16px;
+      border-bottom: 1px solid #e0e0e0;
+      color: var(--text-light);
+      font-size: 0.95rem;
+    }
+    
+    .comparison-table tbody tr:hover {
+      background: rgba(189, 243, 74, 0.05);
+    }
+    
+    .max-column {
+      background: rgba(189, 243, 74, 0.1);
+      color: var(--green-dark);
+      font-weight: 600;
+    }
+    
+    .comparison-table thead .max-column {
+      background: var(--green-dark);
+    }
+    
+    .table-footnote {
+      font-size: 0.85rem;
+      color: var(--text-light);
+      text-align: center;
+      margin-top: 20px;
+      font-style: italic;
+    }
+    
+    @media (max-width: 768px) {
+      .comparison-table {
+        font-size: 0.85rem;
+      }
+      
+      .comparison-table th,
+      .comparison-table td {
+        padding: 12px 8px;
+      }
+    }
+    
+    /* ===== PRICE & VALUE SECTION ===== */
+    .price-value {
+      background: var(--green-dark);
+      color: var(--cream);
+      padding: 60px 20px;
+      text-align: center;
+    }
+    
+    .price-value > div {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    
+    .price-value h2 {
+      font-size: 2rem;
+      margin-bottom: 30px;
+      color: var(--green-lime);
+    }
+    
+    .price-comparison {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 40px;
+      margin-bottom: 30px;
+    }
+    
+    .price-item {
+      background: rgba(255,255,255,0.1);
+      padding: 30px;
+      border-radius: 8px;
+      border: 2px solid var(--green-lime);
+    }
+    
+    .price-item .amount {
+      font-size: 2.5rem;
+      color: var(--green-lime);
+      font-weight: 700;
+      margin: 20px 0;
+    }
+    
+    .price-disclaimer {
+      font-size: 0.85rem;
+      opacity: 0.9;
+      margin-top: 20px;
+    }
+    
+    /* ===== HOW TO USE ===== */
+    .how-to {
+      max-width: 1200px;
+      margin: 80px auto;
+      padding: 0 20px;
+    }
+    
+    .how-to h2 {
+      font-size: 2rem;
+      text-align: center;
+      margin-bottom: 50px;
+      color: var(--green-dark);
+    }
+    
+    .steps-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 30px;
+    }
+    
+    .step {
+      text-align: center;
+      background: var(--cream);
+      padding: 32px;
+      border-radius: 8px;
+    }
+    
+    .step-number {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 50px;
+      height: 50px;
+      background: var(--green-lime);
+      color: var(--green-dark);
+      border-radius: 50%;
+      font-size: 1.5rem;
+      font-weight: 700;
+      margin: 0 auto 16px;
+    }
+    
+    .step h3 {
+      color: var(--green-dark);
+      margin-bottom: 12px;
+      font-size: 1.2rem;
+    }
+    
+    .step p {
+      color: var(--text-light);
+      font-size: 0.95rem;
+    }
+    
+    /* ===== ACCORDION ===== */
+    .accordion-section {
+      max-width: 1200px;
+      margin: 80px auto;
+      padding: 0 20px;
+    }
+    
+    .accordion-section h2 {
+      font-size: 2rem;
+      text-align: center;
+      margin-bottom: 40px;
+      color: var(--green-dark);
+    }
+    
+    .accordion {
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      overflow: hidden;
+    }
+    
+    .accordion-item {
+      border-bottom: 1px solid var(--border);
+    }
+    
+    .accordion-item:last-child {
+      border-bottom: none;
+    }
+    
+    .accordion-header {
+      background: var(--cream);
+      padding: 20px;
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-weight: 600;
+      color: var(--green-dark);
+      transition: all 0.3s;
+      border: none;
+      width: 100%;
+      text-align: left;
+      font-size: 1rem;
+    }
+    
+    .accordion-header:hover {
+      background: #f0f0f0;
+    }
+    
+    .accordion-header.active {
+      background: var(--green-dark);
+      color: var(--cream);
+    }
+    
+    .accordion-toggle {
+      font-size: 1.2rem;
+      transition: transform 0.3s;
+    }
+    
+    .accordion-header.active .accordion-toggle {
+      transform: rotate(180deg);
+    }
+    
+    .accordion-content {
+      display: none;
+      padding: 20px;
+      background: white;
+      color: var(--text-dark);
+      line-height: 1.8;
+    }
+    
+    .accordion-content.active {
+      display: block;
+    }
+    
+    .nested-accordion {
+      background: var(--cream);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      margin-top: 16px;
+      overflow: hidden;
+    }
+    
+    .nested-accordion-item {
+      border-bottom: 1px solid var(--border);
+    }
+    
+    .nested-accordion-item:last-child {
+      border-bottom: none;
+    }
+    
+    .nested-accordion-header {
+      background: white;
+      padding: 12px 16px;
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-weight: 500;
+      font-size: 0.95rem;
+      border: none;
+      width: 100%;
+      text-align: left;
+      transition: all 0.3s;
+    }
+    
+    .nested-accordion-header:hover {
+      background: #f8f8f8;
+    }
+    
+    .nested-accordion-header.active {
+      background: var(--green-dark);
+      color: var(--cream);
+    }
+    
+    .nested-accordion-content {
+      display: none;
+      padding: 12px 16px;
+      background: white;
+      font-size: 0.9rem;
+      color: var(--text-dark);
+    }
+    
+    .nested-accordion-content.active {
+      display: block;
+    }
+    
+    /* ===== REVIEWS SECTION ===== */
+    .reviews-section {
+      max-width: 1200px;
+      margin: 80px auto;
+      padding: 0 20px;
+    }
+    
+    .reviews-section h2 {
+      font-size: 2rem;
+      text-align: center;
+      margin-bottom: 40px;
+      color: var(--green-dark);
+    }
+    
+    .demo-label {
+      background: var(--green-lime);
+      color: var(--green-dark);
+      padding: 12px 20px;
+      border-radius: 4px;
+      font-weight: 700;
+      text-align: center;
+      margin-bottom: 30px;
+      font-size: 0.85rem;
+      letter-spacing: 0.5px;
+    }
+    
+    .reviews-header {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 40px;
+      margin-bottom: 40px;
+      align-items: start;
+    }
+    
+    .rating-summary {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+    
+    .rating-display {
+      text-align: center;
+    }
+    
+    .rating-display .stars {
+      font-size: 2rem;
+      color: var(--green-lime);;
+      margin-bottom: 8px;
+    }
+    
+    .rating-display .count {
+      font-size: 0.9rem;
+      color: var(--text-light);
+    }
+    
+    .rating-distribution {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    
+    .dist-row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 0.9rem;
+    }
+    
+    .dist-label {
+      width: 40px;
+      text-align: right;
+    }
+    
+    .dist-bar {
+      flex: 1;
+      background: var(--border);
+      height: 8px;
+      border-radius: 4px;
+      position: relative;
+      min-width: 100px;
+    }
+    
+    .dist-fill {
+      background: var(--green-lime);
+      height: 100%;
+      border-radius: 4px;
+    }
+    
+    .dist-count {
+      width: 50px;
+      text-align: right;
+      color: var(--text-light);
+    }
+    
+    .reviews-controls {
+      display: flex;
+      gap: 20px;
+      margin-bottom: 40px;
+      flex-wrap: wrap;
+    }
+    
+    .reviews-controls select {
+      padding: 10px 16px;
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      font-size: 0.95rem;
+      cursor: pointer;
+    }
+    
+    .reviews-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 20px;
+    }
+    
+    .review-card {
+      background: white;
+      border: 1px solid var(--border);
+      padding: 20px;
+      border-radius: 8px;
+    }
+    
+    .review-header {
+      display: flex;
+      gap: 12px;
+      margin-bottom: 12px;
+    }
+    
+    .review-avatar {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: var(--green-lime);
+      color: var(--green-dark);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 1.2rem;
+      flex-shrink: 0;
+    }
+    
+    .review-info {
+      flex: 1;
+    }
+    
+    .review-name {
+      font-weight: 600;
+      color: var(--text-dark);
+    }
+    
+    .review-date {
+      font-size: 0.85rem;
+      color: var(--text-light);
+    }
+    
+    .review-stars {
+      color: var(--green-lime);
+      font-size: 0.9rem;
+      margin-bottom: 8px;
+    }
+    
+    .review-sample-label {
+      display: inline-block;
+      background: var(--cream);
+      color: var(--text-light);
+      padding: 4px 8px;
+      border-radius: 3px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      margin-bottom: 8px;
+    }
+    
+    .review-title {
+      font-weight: 600;
+      color: var(--text-dark);
+      margin-bottom: 8px;
+      font-size: 0.95rem;
+    }
+    
+    .review-body {
+      color: var(--text-light);
+      font-size: 0.9rem;
+      line-height: 1.5;
+    }
+    
+    /* ===== FINAL CTA ===== */
+    .final-cta {
+      background: var(--green-dark);
+      color: var(--white);
+      padding: 80px 20px;
+      text-align: center;
+    }
+    
+    .final-cta > div {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    
+    .final-cta h2 {
+      font-size: 2.2rem;
+      margin-bottom: 16px;
+      color: var(--green-lime);
+    }
+    
+    .final-cta .subheading {
+      font-size: 1.1rem;
+      margin-bottom: 40px;
+      opacity: 0.95;
+    }
+    
+    .final-cta-image {
+      max-width: 300px;
+      margin: 40px auto;
+      height: 250px;
+      background: rgba(255,255,255,0.1);
+      padding: 20px;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    
+    .final-cta .price {
+      font-size: 2rem;
+      color: var(--green-lime);
+      margin-bottom: 20px;
+      font-weight: 700;
+    }
+    
+    /* ===== FOOTER ===== */
+    footer {
+      background: var(--text-dark);
+      color: var(--cream);
+      padding: 60px 20px 30px;
+    }
+    
+    footer > div {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    
+    .footer-content {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 30px;
+      margin-bottom: 40px;
+    }
+    
+    .footer-col h4 {
+      margin-bottom: 16px;
+      font-size: 0.95rem;
+    }
+    
+    .footer-col ul {
+      list-style: none;
+    }
+    
+    .footer-col li {
+      margin-bottom: 8px;
+    }
+    
+    .footer-col a {
+      color: var(--cream);
+      text-decoration: none;
+      font-size: 0.9rem;
+      transition: color 0.3s;
+    }
+    
+    .footer-col a:hover {
+      color: var(--green-lime);
+    }
+    
+    .footer-disclaimer {
+      border-top: 1px solid rgba(255,255,255,0.1);
+      padding-top: 20px;
+      font-size: 0.85rem;
+      color: rgba(255,255,255,0.7);
+      line-height: 1.6;
+    }
+    
+    /* ===== RESPONSIVE DESIGN ===== */
+    @media (max-width: 768px) {
+      .hero {
+        grid-template-columns: 1fr;
+        gap: 30px;
+      }
+      
+      .hero-info h1 {
+        font-size: 1.8rem;
+      }
+      
+      .hero-price {
+        font-size: 1.5rem;
+      }
+      
+      .diff-grid,
+      .steps-grid {
+        grid-template-columns: 1fr;
+      }
+      
+      .comparison-grid {
+        grid-template-columns: 1fr;
+      }
+      
+      .price-comparison {
+        grid-template-columns: 1fr;
+      }
+      
+      .reviews-header {
+        grid-template-columns: 1fr;
+        gap: 30px;
+      }
+      
+      .nav-items {
+        gap: 15px;
+      }
+      
+      .benefits-list {
+        flex-direction: column;
+      }
+      
+      .problem h2,
+      .comparison h2,
+      .how-to h2,
+      .reviews-section h2,
+      .final-cta h2 {
+        font-size: 1.5rem;
+      }
+    }
+  </style>
 </head>
 <body>
-    <!-- Announcement Bar -->
-    <div class="announcement">⭐ 98% of users see cleaner floors in 1 week • Free shipping on orders over $50 • 30-day guarantee</div>
+<!-- ANNOUNCEMENT BAR -->
+<div class="announcement">
+  MEET THE NEXT GENERATION OF WET CLOTH REFILLS
+</div>
+
+<!-- NAVIGATION -->
+<nav>
+  <div>
+    <div class="nav-brand">Mop & Go MAX</div>
+    <ul class="nav-items">
+      <li><a onclick="scrollToSection('product')">Product</a></li>
+      <li><a onclick="scrollToSection('benefits')">Benefits</a></li>
+      <li><a onclick="scrollToSection('how-it-works')">How It Works</a></li>
+      <li><a onclick="scrollToSection('reviews')">Reviews</a></li>
+      <li class="cart-icon" onclick="openCart()">🛒</li>
+    </ul>
+  </div>
+</nav>
+
+<!-- HERO SECTION -->
+<section class="hero" id="product">
+  <div class="hero-gallery">
+    <div class="main-image">
+      <img id="mainImage" src="assets/compare-original-max.png" alt="Mop & Go MAX" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22300%22 height=%22300%22%3E%3Crect fill=%22%23F8F9F4%22 width=%22300%22 height=%22300%22/%3E%3Ctext x=%2250%25%22 y=%2250%25%22 text-anchor=%22middle%22 dy=%22.3em%22 font-family=%22Arial%22 font-size=%2220%22 fill=%22%23666%22%3EProduct Image%3C/text%3E%3C/svg%3E'">
+    </div>
+    <div class="thumbnails">
+      <div class="thumb active" onclick="changeImage('assets/compare-original-max.png', this)">
+        <img src="assets/compare-original-max.png" alt="Compare" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%2280%22 height=%2280%22%3E%3Crect fill=%22%23F8F9F4%22 width=%2280%22 height=%2280%22/%3E%3Ctext x=%2250%25%22 y=%2250%25%22 text-anchor=%22middle%22 dy=%22.3em%22 font-family=%22Arial%22 font-size=%2210%22 fill=%22%23999%22%3ECompare%3C/text%3E%3C/svg%3E'">
+      </div>
+      <div class="thumb" onclick="changeImage('assets/pack-main.png', this)">
+        <img src="assets/pack-main.png" alt="Package" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%2280%22 height=%2280%22%3E%3Crect fill=%22%23F8F9F4%22 width=%2280%22 height=%2280%22/%3E%3Ctext x=%2250%25%22 y=%2250%25%22 text-anchor=%22middle%22 dy=%22.3em%22 font-family=%22Arial%22 font-size=%2210%22 fill=%22%23999%22%3EPackage%3C/text%3E%3C/svg%3E'">
+      </div>
+    </div>
+  </div>
+  
+  <div class="hero-info">
+    <h1>Mop & Go MAX</h1>
+    <p class="subtitle">Thicker Wet Cloth Refills | 12 Count</p>
+    <div class="hero-price">$14.99</div>
     
-    <!-- Hero Section -->
-    <div class="hero">
-        <div class="container">
-            <div class="hero-wrapper">
-                <!-- Left: Product Gallery -->
-                <div class="gallery">
-                    <div class="main-image">
-                        <img id="mainImg" src="assets/compare-original-max.png" alt="Mop & Go MAX vs Original">
-                    </div>
-                    <div class="thumbnails">
-                        <div class="thumb active" onclick="changeImage(this, 'assets/compare-original-max.png')">
-                            <img src="assets/compare-original-max.png" alt="Compare">
-                        </div>
-                        <div class="thumb" onclick="changeImage(this, 'assets/pack-main.png')">
-                            <img src="assets/pack-main.png" alt="Package">
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- Right: Product Info -->
-                <div class="product-info">
-                    <h1>Mop & Go MAX</h1>
-                    <div class="price">$29.99</div>
-                    <div class="rating"><span class="stars">★★★★★</span> 4.7 (18,220 reviews)</div>
-                    <p class="description">Revolutionary wet cleaning cloths engineered for Swiffer®. Extra-thick microfiber traps 40% more dirt & grime. Premium formula tackles grease, stains, and pet accidents—one swipe.</p>
-                    
-                    <div class="selector-group">
-                        <div>
-                            <label style="display: block; margin-bottom: 8px; font-weight: 600;">Quantity</label>
-                            <div class="qty-control">
-                                <button onclick="decrementQty()">−</button>
-                                <input id="qty" type="number" value="1" min="1" readonly>
-                                <button onclick="incrementQty()">+</button>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <button class="btn btn-primary" onclick="addToCart()">Add to Cart</button>
-                    <div id="cartMsg" style="margin-top: 10px; color: var(--green-lime); font-weight: 600; display: none;"></div>
-                    
-                    <div class="trust-badges">
-                        <div class="badge">Money-back guarantee</div>
-                        <div class="badge">Ships next day</div>
-                        <div class="badge">Made in USA</div>
-                    </div>
-                </div>
-            </div>
-        </div>
+    <p class="hero-description">
+      Meet Mop & Go MAX, a thicker wet cloth refill designed to hold moisture longer, cover more floor, and reduce mid-clean interruptions. Keep the mop you already own. Just upgrade the cloth.
+    </p>
+    
+    <div class="benefits-list">
+      <span class="benefit">✓ Stay Wet Longer</span>
+      <span class="benefit">✓ Clean More Floor</span>
+      <span class="benefit">✓ Fewer Cloth Changes</span>
     </div>
     
-    <!-- Problem Section -->
-    <div class="section" style="background: var(--cream);">
-        <div class="container">
-            <h2>The Problem</h2>
-            <p style="text-align: center; max-width: 700px; margin: 0 auto 30px; font-size: 1.1em; color: #555;">
-                Regular Swiffer cloths miss dirt in corners, leave streaks, and fall apart after 3 uses. Your home deserves better.
-            </p>
-            <div class="section-grid">
-                <div class="card">
-                    <h3>❌ Weak & Flimsy</h3>
-                    <p>Standard cloths tear easily and leave residue behind.</p>
-                </div>
-                <div class="card">
-                    <h3>❌ Expensive Over Time</h3>
-                    <p>Single-use packs waste money. One cloth = $2+ of hidden costs.</p>
-                </div>
-                <div class="card">
-                    <h3>❌ Unsustainable</h3>
-                    <p>Millions of used cloths end up in landfills yearly.</p>
-                </div>
-            </div>
-        </div>
+    <div class="qty-selector">
+      <label>Quantity:</label>
+      <button class="qty-btn" onclick="decreaseQty()">−</button>
+      <input type="number" id="quantity" value="1" min="1" max="100">
+      <button class="qty-btn" onclick="increaseQty()">+</button>
     </div>
     
-    <!-- Solution Section -->
-    <div class="section">
-        <div class="container">
-            <h2>Why Mop & Go MAX Works</h2>
-            <div class="section-grid">
-                <div class="card">
-                    <h3>🔥 Ultra-Thick Microfiber</h3>
-                    <p>2x more absorbent than originals. Captures dirt, not just moves it.</p>
-                </div>
-                <div class="card">
-                    <h3>🧴 Premium Cleaning Solution</h3>
-                    <p>Advanced formula removes grime, grease, and pet stains—one swipe.</p>
-                </div>
-                <div class="card">
-                    <h3>💪 Durable Design</h3>
-                    <p>Lasts 10+ uses. Washable & reusable. True value over disposables.</p>
-                </div>
-                <div class="card">
-                    <h3>♻️ Eco-Friendly</h3>
-                    <p>Reduced waste. Better for your home, better for the planet.</p>
-                </div>
-            </div>
+    <button class="add-to-cart-btn" onclick="addToCart()">ADD TO CART</button>
+    
+    <p class="hero-note">ⓘ Concept product. Proposed pricing and performance.</p>
+    
+    <div class="trust-badges">
+      <span class="badge">✓ Free Shipping</span>
+      <span class="badge">✓ 30-Day Guarantee</span>
+      <span class="badge">✓ Made in USA</span>
+    </div>
+  </div>
+</section>
+
+<!-- PROBLEM SECTION -->
+<section class="problem">
+  <div class="problem-container">
+    <div class="problem-left">
+      <img src="assets/problem-woman-mopping.gif" alt="Woman mopping with dried cloth" class="problem-gif">
+    </div>
+    <div class="problem-right">
+      <h2>Does Your Wet Cloth Give Up Before You Do?</h2>
+      <p>You bought your Sweeper for convenience. But when the wet cloth dries out before you're done, you have to stop, replace it, and start cleaning again.</p>
+      
+      <div class="friction-chain">
+        <div class="friction-item">
+          <span class="friction-label">Dries Out</span>
         </div>
+        <span class="friction-arrow">→</span>
+        <div class="friction-item">
+          <span class="friction-label">Stop & Replace</span>
+        </div>
+        <span class="friction-arrow">→</span>
+        <div class="friction-item">
+          <span class="friction-label">Repeat</span>
+        </div>
+      </div>
+      
+      <p class="closing-statement"><strong>Your mop still works. It's the cloth that keeps letting you down.</strong></p>
+    </div>
+  </div>
+</section>
+
+<!-- DIFFERENTIATORS -->
+<section class="differentiators" id="benefits">
+  <div class="diff-grid">
+    <div class="diff-card">
+      <h3>Stay Wet Longer</h3>
+      <p>Thicker fabric construction holds moisture longer, giving you more wet-cleaning passes before replacement.</p>
+    </div>
+    <div class="diff-card">
+      <h3>Cover More Floor</h3>
+      <p>One MAX cloth covers as much floor as multiple standard cloths, reducing the number of interruptions.</p>
+    </div>
+    <div class="diff-card">
+      <h3>Fewer Interruptions</h3>
+      <p>Spend less time stopping to change cloths and more time enjoying your clean floors.</p>
+    </div>
+  </div>
+</section>
+
+<!-- COMPARISON SECTION -->
+<section class="comparison">
+  <h2>Why Mop & Go MAX?</h2>
+  
+  <div class="comparison-table-container">
+    <table class="comparison-table">
+      <thead>
+        <tr>
+          <th>Feature</th>
+          <th>Original Swiffer Wet Cloth</th>
+          <th class="max-column">Mop & Go MAX</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Moisture Retention</strong></td>
+          <td>Dries out quickly in my experience</td>
+          <td class="max-column">Designed to stay wet 10× longer*</td>
+        </tr>
+        <tr>
+          <td><strong>Floor Coverage</strong></td>
+          <td>Limited area per cloth</td>
+          <td class="max-column">Target: 10× larger area*</td>
+        </tr>
+        <tr>
+          <td><strong>Cloths Per Clean</strong></td>
+          <td>~12 in my example</td>
+          <td class="max-column">Target: 1*</td>
+        </tr>
+        <tr>
+          <td><strong>Cost Per Clean</strong></td>
+          <td>~$5.00</td>
+          <td class="max-column">Projected ~$1.25*</td>
+        </tr>
+        <tr>
+          <td><strong>Mop Compatibility</strong></td>
+          <td>Swiffer Sweeper</td>
+          <td class="max-column">Designed for Swiffer Sweeper</td>
+        </tr>
+      </tbody>
+    </table>
+    
+    <p class="table-footnote">*Concept design targets based on proposed product specifications and illustrative cleaning scenarios. Performance and compatibility have not been independently tested.</p>
+  </div>
+</section>
+
+<!-- PRICE & VALUE -->
+<section class="price-value">
+  <div>
+    <h2>A Little More Per Pack. A Lot Less Per Clean.</h2>
+    <div class="price-comparison">
+      <div class="price-item">
+        <h4>Original Wet Cloth</h4>
+        <div class="amount">~$5.00</div>
+        <p>per clean</p>
+        <p class="price-disclaimer">Based on ~12 cloths per clean @ $9.99 per 24-pack</p>
+      </div>
+      <div class="price-item">
+        <h4>Mop & Go MAX</h4>
+        <div class="amount">~$1.25</div>
+        <p>per clean</p>
+        <p class="price-disclaimer">Based on 1 cloth per clean @ $14.99 per 12-pack</p>
+      </div>
+    </div>
+    <p style="max-width: 800px; margin: 0 auto;">Premium material and thicker construction mean you get maximum performance with every clean, while reducing waste and overall cleaning costs.</p>
+  </div>
+</section>
+
+<!-- HOW TO USE -->
+<section class="how-to" id="how-it-works">
+  <h2>Same Mop. Better Cloth.</h2>
+  
+  <div class="steps-grid">
+    <div class="step">
+      <div class="step-number">1</div>
+      <h3>Attach</h3>
+      <p>Attach a MAX wet cloth to your Swiffer Sweeper.</p>
+    </div>
+    <div class="step">
+      <div class="step-number">2</div>
+      <h3>Mop</h3>
+      <p>Clean more floor with fewer interruptions.</p>
+    </div>
+    <div class="step">
+      <div class="step-number">3</div>
+      <h3>Dispose</h3>
+      <p>Remove and discard the used cloth when finished.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ACCORDION / PRODUCT INFORMATION -->
+<section class="accordion-section">
+  <h2>Product Information</h2>
+  
+  <div class="accordion">
+    <div class="accordion-item">
+      <button class="accordion-header" onclick="toggleAccordion(this)">
+        <span>Product Description</span>
+        <span class="accordion-toggle">▼</span>
+      </button>
+      <div class="accordion-content">
+        <p>Mop & Go MAX represents the next generation of wet cloth refills. Engineered with a thicker, more absorbent material, MAX cloths are designed to hold moisture longer and clean more floor per cloth compared to standard wet cloth refills. Each package contains 12 premium cloths sized to fit standard Swiffer Sweeper mops.</p>
+      </div>
     </div>
     
-    <!-- How It Works -->
-    <div class="section" style="background: var(--cream);">
-        <div class="container">
-            <h2>How It Works</h2>
-            <div class="accordion">
-                <div class="accordion-item">
-                    <div class="accordion-header" onclick="toggleAccordion(event)">
-                        <span>Step 1: Attach to Swiffer Sweeper</span>
-                        <span class="toggle">▼</span>
-                    </div>
-                    <div class="accordion-content">
-                        Simply snap the Mop & Go MAX cloth onto your Swiffer Sweeper handle—no tools required. Fits all standard Swiffer models.
-                    </div>
-                </div>
-                <div class="accordion-item">
-                    <div class="accordion-header" onclick="toggleAccordion(event)">
-                        <span>Step 2: Spray & Glide</span>
-                        <span class="toggle">▼</span>
-                    </div>
-                    <div class="accordion-content">
-                        Lightly spray the floor with your favorite cleaner (or use our proprietary solution). Glide across surfaces—the MAX fabric captures dirt instantly.
-                    </div>
-                </div>
-                <div class="accordion-item">
-                    <div class="accordion-header" onclick="toggleAccordion(event)">
-                        <span>Step 3: Wash & Reuse</span>
-                        <span class="toggle">▼</span>
-                    </div>
-                    <div class="accordion-content">
-                        After cleaning, rinse the cloth under warm water. Machine wash on gentle or air dry. Use 10+ times before replacement.
-                    </div>
-                </div>
-            </div>
-        </div>
+    <div class="accordion-item">
+      <button class="accordion-header" onclick="toggleAccordion(this)">
+        <span>What's Included</span>
+        <span class="accordion-toggle">▼</span>
+      </button>
+      <div class="accordion-content">
+        <p>Your package includes:</p>
+        <ul style="margin-left: 20px; margin-top: 10px;">
+          <li>12 Mop & Go MAX wet cloth refills</li>
+          <li>Individually packaged for freshness</li>
+          <li>Ready to attach to your existing Swiffer Sweeper</li>
+        </ul>
+      </div>
     </div>
     
-    <!-- Comparison -->
-    <div class="section">
-        <div class="container">
-            <h2>Why Mop & Go MAX Wins</h2>
-            <div style="overflow-x: auto;">
-                <table style="width: 100%; border-collapse: collapse; margin-top: 30px;">
-                    <tr style="background: var(--green-dark); color: white;">
-                        <th style="padding: 15px; text-align: left;">Feature</th>
-                        <th style="padding: 15px; text-align: center;">Standard Swiffer</th>
-                        <th style="padding: 15px; text-align: center; background: var(--green-lime); color: var(--green-dark);">Mop & Go MAX</th>
-                    </tr>
-                    <tr style="border-bottom: 1px solid #ddd;">
-                        <td style="padding: 15px;">Absorbency</td>
-                        <td style="padding: 15px; text-align: center;">Standard</td>
-                        <td style="padding: 15px; text-align: center; font-weight: 600;">2x Better ✓</td>
-                    </tr>
-                    <tr style="border-bottom: 1px solid #ddd; background: #f5f5f5;">
-                        <td style="padding: 15px;">Uses Per Cloth</td>
-                        <td style="padding: 15px; text-align: center;">1-2</td>
-                        <td style="padding: 15px; text-align: center; font-weight: 600;">10+</td>
-                    </tr>
-                    <tr style="border-bottom: 1px solid #ddd;">
-                        <td style="padding: 15px;">Cost Per Use</td>
-                        <td style="padding: 15px; text-align: center;">$2+</td>
-                        <td style="padding: 15px; text-align: center; font-weight: 600;">$0.30</td>
-                    </tr>
-                    <tr style="border-bottom: 1px solid #ddd; background: #f5f5f5;">
-                        <td style="padding: 15px;">Washable/Reusable</td>
-                        <td style="padding: 15px; text-align: center;">No</td>
-                        <td style="padding: 15px; text-align: center; font-weight: 600;">Yes ✓</td>
-                    </tr>
-                    <tr>
-                        <td style="padding: 15px;">Eco-Friendly</td>
-                        <td style="padding: 15px; text-align: center;">No</td>
-                        <td style="padding: 15px; text-align: center; font-weight: 600;">Yes ✓</td>
-                    </tr>
-                </table>
-            </div>
-        </div>
+    <div class="accordion-item">
+      <button class="accordion-header" onclick="toggleAccordion(this)">
+        <span>Compatibility</span>
+        <span class="accordion-toggle">▼</span>
+      </button>
+      <div class="accordion-content">
+        <p>Mop & Go MAX wet cloths are compatible with all standard Swiffer Sweeper mops and handles. The attachment mechanism uses the same velcro-style fastening system as the original Swiffer wet cloths, ensuring seamless integration with your existing cleaning setup.</p>
+      </div>
     </div>
     
-    <!-- Reviews Section -->
-    <div class="section" style="background: var(--cream);">
-        <div class="container">
-            <h2>Loved by Thousands</h2>
-            <div class="reviews-container">
-                <div class="review-stats">
-                    <div class="demo-label">DEMO REVIEWS / FICTIONAL DATA</div>
-                    <div class="avg-rating">4.7</div>
-                    <p style="color: #999; margin-bottom: 10px;">out of 5 stars</p>
-                    <p style="color: #666; font-size: 0.95em;">Based on 18,220 verified purchases</p>
-                    <div class="rating-bars">
-                        <div class="rating-bar">
-                            <span>5★</span>
-                            <div class="bar"><div class="bar-fill" style="width: 66%;"></div></div>
-                            <span style="font-size: 0.85em; color: #999;">12K</span>
-                        </div>
-                        <div class="rating-bar">
-                            <span>4★</span>
-                            <div class="bar"><div class="bar-fill" style="width: 27%;"></div></div>
-                            <span style="font-size: 0.85em; color: #999;">5K</span>
-                        </div>
-                        <div class="rating-bar">
-                            <span>3★</span>
-                            <div class="bar"><div class="bar-fill" style="width: 5%;"></div></div>
-                            <span style="font-size: 0.85em; color: #999;">1K</span>
-                        </div>
-                        <div class="rating-bar">
-                            <span>2★</span>
-                            <div class="bar"><div class="bar-fill" style="width: 1%;"></div></div>
-                            <span style="font-size: 0.85em; color: #999;">200</span>
-                        </div>
-                        <div class="rating-bar">
-                            <span>1★</span>
-                            <div class="bar"><div class="bar-fill" style="width: 0.1%;"></div></div>
-                            <span style="font-size: 0.85em; color: #999;">20</span>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="review-list">
-                    <div class="review-item">
-                        <div style="margin-bottom: 8px;"><span class="review-star">★★★★★</span></div>
-                        <div class="review-title">Finally, a Swiffer cloth that actually works!</div>
-                        <div class="review-text">"I've been using this for 2 weeks now and my floors are cleaner than ever. The durability is insane—still going strong after 12 uses!"</div>
-                        <div class="review-author">— Sarah M., Verified Purchase</div>
-                    </div>
-                    <div class="review-item">
-                        <div style="margin-bottom: 8px;"><span class="review-star">★★★★★</span></div>
-                        <div class="review-title">Save so much money</div>
-                        <div class="review-text">"No more buying new packs every week. One set of MAX cloths replaced what used to be $60/month in disposables. Best purchase ever!"</div>
-                        <div class="review-author">— Mike T., Verified Purchase</div>
-                    </div>
-                    <div class="review-item">
-                        <div style="margin-bottom: 8px;"><span class="review-star">★★★★★</span></div>
-                        <div class="review-title">Pet messes disappear</div>
-                        <div class="review-text">"Dog owner here. These cloths tackle pet accidents like nothing else. No streaks, no odor, and the fabric dries super fast."</div>
-                        <div class="review-author">— Jessica L., Verified Purchase</div>
-                    </div>
-                    <div class="review-item">
-                        <div style="margin-bottom: 8px;"><span class="review-star">★★★★☆</span></div>
-                        <div class="review-title">Great product, shipping took longer</div>
-                        <div class="review-text">"Product quality is excellent. Arrived in good condition. Would prefer faster shipping, but the cloth itself is worth the wait."</div>
-                        <div class="review-author">— David K., Verified Purchase</div>
-                    </div>
-                    <div class="review-item">
-                        <div style="margin-bottom: 8px;"><span class="review-star">★★★★★</span></div>
-                        <div class="review-title">Eco-conscious and effective</div>
-                        <div class="review-text">"Love that I'm reducing waste while getting cleaner floors. The fabric quality is noticeably better than standard options."</div>
-                        <div class="review-author">— Emma R., Verified Purchase</div>
-                    </div>
-                </div>
-            </div>
-        </div>
+    <div class="accordion-item">
+      <button class="accordion-header" onclick="toggleAccordion(this)">
+        <span>Features & Performance</span>
+        <span class="accordion-toggle">▼</span>
+      </button>
+      <div class="accordion-content">
+        <p><strong>Advanced Fabric Technology:</strong> Thicker, multi-layer construction designed to absorb and retain more moisture.</p>
+        <p style="margin-top: 10px;"><strong>Extended Wet Life:</strong> Maintains optimal moisture levels for longer cleaning sessions, reducing the need for frequent cloth changes.</p>
+        <p style="margin-top: 10px;"><strong>Superior Coverage:</strong> Each cloth covers more floor area, reducing the total number of cloths needed per cleaning session.</p>
+        <p style="margin-top: 10px;"><strong>Cost Efficient:</strong> Though higher cost per package, the dramatic reduction in cloths per clean results in significant savings over time.</p>
+      </div>
     </div>
     
-    <!-- Final CTA -->
-    <div class="cta-section">
-        <div class="container">
-            <h2>Ready to Transform Your Cleaning?</h2>
-            <p>Join 18,000+ happy customers saving time, money, and the planet.</p>
-            <button class="btn btn-primary">Get Mop & Go MAX Today</button>
-            <p style="margin-top: 20px; font-size: 0.9em; color: #ccc;">30-day money-back guarantee • No questions asked</p>
-        </div>
+    <div class="accordion-item">
+      <button class="accordion-header" onclick="toggleAccordion(this)">
+        <span>How to Use</span>
+        <span class="accordion-toggle">▼</span>
+      </button>
+      <div class="accordion-content">
+        <p><strong>Step 1 - Prepare:</strong> Remove one Mop & Go MAX cloth from the package.</p>
+        <p style="margin-top: 10px;"><strong>Step 2 - Attach:</strong> Remove the backing from the velcro pad and firmly press the MAX cloth to your Swiffer Sweeper head, ensuring full contact for optimal adhesion.</p>
+        <p style="margin-top: 10px;"><strong>Step 3 - Clean:</strong> Begin cleaning. MAX cloths are designed to provide extended wet-cleaning performance compared to standard cloths.</p>
+        <p style="margin-top: 10px;"><strong>Step 4 - Replace:</strong> When the cloth becomes dry or worn, carefully peel it away and dispose of it properly. Attach a fresh cloth and continue cleaning.</p>
+      </div>
     </div>
     
-    <!-- Footer -->
-    <footer>
-        <div class="container">
-            <div class="footer-grid">
-                <div class="footer-section">
-                    <h4>Company</h4>
-                    <ul>
-                        <li><a href="#">About Us</a></li>
-                        <li><a href="#">Blog</a></li>
-                        <li><a href="#">Press</a></li>
-                        <li><a href="#">Careers</a></li>
-                    </ul>
-                </div>
-                <div class="footer-section">
-                    <h4>Support</h4>
-                    <ul>
-                        <li><a href="#">Help Center</a></li>
-                        <li><a href="#">Contact</a></li>
-                        <li><a href="#">Shipping Info</a></li>
-                        <li><a href="#">Returns</a></li>
-                    </ul>
-                </div>
-                <div class="footer-section">
-                    <h4>Legal</h4>
-                    <ul>
-                        <li><a href="#">Privacy Policy</a></li>
-                        <li><a href="#">Terms of Service</a></li>
-                        <li><a href="#">Cookie Policy</a></li>
-                    </ul>
-                </div>
-                <div class="footer-section">
-                    <h4>Connect</h4>
-                    <ul>
-                        <li><a href="#">Instagram</a></li>
-                        <li><a href="#">Twitter</a></li>
-                        <li><a href="#">Facebook</a></li>
-                        <li><a href="#">TikTok</a></li>
-                    </ul>
-                </div>
+    <div class="accordion-item">
+      <button class="accordion-header" onclick="toggleAccordion(this)">
+        <span>Frequently Asked Questions</span>
+        <span class="accordion-toggle">▼</span>
+      </button>
+      <div class="accordion-content">
+        <div class="nested-accordion">
+          <div class="nested-accordion-item">
+            <button class="nested-accordion-header" onclick="toggleNestedAccordion(this)">
+              <span>Are MAX cloths compatible with my Swiffer?</span>
+              <span class="accordion-toggle">▼</span>
+            </button>
+            <div class="nested-accordion-content">
+              Yes, MAX cloths are designed to work with all standard Swiffer Sweeper mops and handles using the same velcro-style attachment system as original Swiffer wet cloths.
             </div>
-            <div class="footer-bottom">
-                <p>&copy; 2024 Pacagen. All rights reserved. | Mop & Go MAX is not affiliated with Swiffer® or Procter & Gamble.</p>
+          </div>
+          
+          <div class="nested-accordion-item">
+            <button class="nested-accordion-header" onclick="toggleNestedAccordion(this)">
+              <span>How long does one MAX cloth last?</span>
+              <span class="accordion-toggle">▼</span>
+            </button>
+            <div class="nested-accordion-content">
+              MAX cloths are engineered to clean an average-sized home in a single cloth, compared to approximately 12 standard cloths. Duration depends on home size, floor type, and cleaning intensity.
             </div>
+          </div>
+          
+          <div class="nested-accordion-item">
+            <button class="nested-accordion-header" onclick="toggleNestedAccordion(this)">
+              <span>How much money can I save?</span>
+              <span class="accordion-toggle">▼</span>
+            </button>
+            <div class="nested-accordion-content">
+              Assuming an average clean uses 12 original cloths at ~$5 per clean, switching to MAX at ~$1.25 per clean saves approximately $3.75 per clean, or roughly $180 per year for weekly cleaning.
+            </div>
+          </div>
+          
+          <div class="nested-accordion-item">
+            <button class="nested-accordion-header" onclick="toggleNestedAccordion(this)">
+              <span>Are MAX cloths eco-friendly?</span>
+              <span class="accordion-toggle">▼</span>
+            </button>
+            <div class="nested-accordion-content">
+              By using fewer cloths per clean, MAX cloths reduce overall waste and consumption compared to standard refills. Made from recyclable materials and designed to minimize environmental impact.
+            </div>
+          </div>
+          
+          <div class="nested-accordion-item">
+            <button class="nested-accordion-header" onclick="toggleNestedAccordion(this)">
+              <span>Do MAX cloths work on all floor types?</span>
+              <span class="accordion-toggle">▼</span>
+            </button>
+            <div class="nested-accordion-content">
+              Yes, MAX cloths are safe and effective on all sealed hard floors including tile, laminate, vinyl, and hardwood. Always follow floor manufacturer recommendations for wet-cleaning.
+            </div>
+          </div>
+          
+          <div class="nested-accordion-item">
+            <button class="nested-accordion-header" onclick="toggleNestedAccordion(this)">
+              <span>What's your satisfaction guarantee?</span>
+              <span class="accordion-toggle">▼</span>
+            </button>
+            <div class="nested-accordion-content">
+              We offer a 30-day money-back guarantee. If you're not satisfied with MAX cloths for any reason, simply return your purchase for a full refund, no questions asked.
+            </div>
+          </div>
         </div>
-    </footer>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- REVIEWS SECTION -->
+<section class="reviews-section" id="reviews">
+  <h2>Customer Reviews</h2>
+  
+  <div class="demo-label">
+    DEMO REVIEWS / FICTIONAL DATA
+  </div>
+  
+  <div class="reviews-header">
+    <div class="rating-summary">
+      <div class="rating-display">
+        <div class="stars">★★★★☆</div>
+        <div class="count">4.58 / 5.0</div>
+        <div class="count">18,220 reviews</div>
+      </div>
+    </div>
     
-    <script>
-        function changeImage(thumb, src) {
-            document.getElementById('mainImg').src = src;
-            document.querySelectorAll('.thumb').forEach(t => t.classList.remove('active'));
-            thumb.classList.add('active');
-        }
-        
-        function incrementQty() {
-            const qty = document.getElementById('qty');
-            qty.value = parseInt(qty.value) + 1;
-        }
-        
-        function decrementQty() {
-            const qty = document.getElementById('qty');
-            if (parseInt(qty.value) > 1) qty.value = parseInt(qty.value) - 1;
-        }
-        
-        function addToCart() {
-            const qty = document.getElementById('qty').value;
-            const msg = document.getElementById('cartMsg');
-            msg.textContent = `✓ Added ${qty} to cart!`;
-            msg.style.display = 'block';
-            setTimeout(() => msg.style.display = 'none', 3000);
-        }
-        
-        function toggleAccordion(event) {
-            const item = event.currentTarget.parentElement;
-            item.classList.toggle('active');
-        }
-    </script>
+    <div class="rating-distribution">
+      <div class="dist-row">
+        <span class="dist-label">5★</span>
+        <div class="dist-bar"><div class="dist-fill" style="width: 66%"></div></div>
+        <span class="dist-count">12,000</span>
+      </div>
+      <div class="dist-row">
+        <span class="dist-label">4★</span>
+        <div class="dist-bar"><div class="dist-fill" style="width: 27%"></div></div>
+        <span class="dist-count">5,000</span>
+      </div>
+      <div class="dist-row">
+        <span class="dist-label">3★</span>
+        <div class="dist-bar"><div class="dist-fill" style="width: 5%"></div></div>
+        <span class="dist-count">1,000</span>
+      </div>
+      <div class="dist-row">
+        <span class="dist-label">2★</span>
+        <div class="dist-bar"><div class="dist-fill" style="width: 1%"></div></div>
+        <span class="dist-count">200</span>
+      </div>
+      <div class="dist-row">
+        <span class="dist-label">1★</span>
+        <div class="dist-bar"><div class="dist-fill" style="width: 0.1%"></div></div>
+        <span class="dist-count">20</span>
+      </div>
+    </div>
+  </div>
+  
+  <div class="reviews-controls">
+    <select id="filterSelect" onchange="filterReviews()">
+      <option value="">All Reviews</option>
+      <option value="5">5 Stars</option>
+      <option value="4">4 Stars</option>
+      <option value="3">3 Stars</option>
+      <option value="2">2 Stars</option>
+      <option value="1">1 Star</option>
+    </select>
+    
+    <select id="sortSelect" onchange="sortReviews()">
+      <option value="recent">Most Recent</option>
+      <option value="highest">Highest Rating</option>
+      <option value="lowest">Lowest Rating</option>
+    </select>
+  </div>
+  
+  <div class="reviews-grid" id="reviewsGrid">
+    <!-- Reviews will be inserted here by JavaScript -->
+  </div>
+</section>
+
+<!-- FINAL CTA -->
+<section class="final-cta">
+  <div>
+    <h2>Next Time You Restock, Make It MAX.</h2>
+    <p class="subheading">You already own the mop. You already buy the refills. Now you can choose a smarter cloth.</p>
+    
+    <div class="final-cta-image">
+      <img src="assets/compare-original-max.png" alt="Mop & Go MAX" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22300%22 height=%22250%22%3E%3Crect fill=%22rgba(255,255,255,0.1)%22 width=%22300%22 height=%22250%22/%3E%3Ctext x=%2250%25%22 y=%2250%25%22 text-anchor=%22middle%22 dy=%22.3em%22 font-family=%22Arial%22 font-size=%2220%22 fill=%22%23aaa%22%3EProduct Image%3C/text%3E%3C/svg%3E'">
+    </div>
+    
+    <div class="price">$14.99</div>
+    <button class="add-to-cart-btn" onclick="addToCart()">ADD TO CART</button>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div>
+    <div class="footer-content">
+      <div class="footer-col">
+        <h4>Product</h4>
+        <ul>
+          <li><a href="#product">Overview</a></li>
+          <li><a href="#benefits">Features</a></li>
+          <li><a href="#how-it-works">How It Works</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Company</h4>
+        <ul>
+          <li><a href="#">About Us</a></li>
+          <li><a href="#">Contact</a></li>
+          <li><a href="#">Blog</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Support</h4>
+        <ul>
+          <li><a href="#how-it-works">FAQ</a></li>
+          <li><a href="#">Returns</a></li>
+          <li><a href="#">Shipping</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Legal</h4>
+        <ul>
+          <li><a href="#">Privacy Policy</a></li>
+          <li><a href="#">Terms of Service</a></li>
+          <li><a href="#">Disclaimer</a></li>
+        </ul>
+      </div>
+    </div>
+    
+    <div class="footer-disclaimer">
+      <p><strong>Concept Mockup Disclaimer:</strong> This landing page is an academic concept mockup created for demonstration and educational purposes. Mop & Go MAX is a proposed concept product. Pricing, features, and performance specifications are illustrative and subject to change. This is not an actual product listing or sales page. Any images used are for mockup purposes only and may be placeholder graphics. Swiffer and related trademarks are the property of their respective owners. For more information, please contact us or visit our main website.</p>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // Cart state
+  let cartItems = [];
+
+  // Sample reviews data
+  const reviewsData = [
+    {
+      name: "Sarah M.",
+      avatar: "S",
+      date: "2 days ago",
+      stars: 5,
+      title: "Finally, a cloth that lasts!",
+      body: "I've been using Swiffer for years and constantly frustrated by how many cloths I need per clean. MAX cloths are a total game-changer. One cloth cleaned my entire apartment. Worth every penny."
+    },
+    {
+      name: "David T.",
+      avatar: "D",
+      date: "1 week ago",
+      stars: 5,
+      title: "The thickness really makes a difference",
+      body: "The moment I opened the package, I could feel the quality difference. These cloths are noticeably thicker. They stay wet longer and pick up more dirt. Finally upgrading from the original was absolutely worth it."
+    },
+    {
+      name: "Jennifer L.",
+      avatar: "J",
+      date: "2 weeks ago",
+      stars: 4,
+      title: "Great product, shipping was slow",
+      body: "The cloths work great and last much longer than regular Swiffer refills. My only complaint is it took longer than expected to arrive. But the product itself is excellent and saves money in the long run."
+    },
+    {
+      name: "Michael R.",
+      avatar: "M",
+      date: "3 weeks ago",
+      stars: 5,
+      title: "Best cleaning decision I've made",
+      body: "Skeptical at first about paying more per pack, but the math is simple. One MAX cloth does the work of twelve regular ones. My monthly cleaning costs dropped by almost $20. This is a no-brainer upgrade."
+    },
+    {
+      name: "Lisa K.",
+      avatar: "L",
+      date: "1 month ago",
+      stars: 5,
+      title: "No more mid-clean cloth changes!",
+      body: "I can finally clean without stopping to swap out dried-out cloths. The convenience factor alone is worth the upgrade, not to mention the savings. Highly recommend to anyone who cleans regularly."
+    },
+    {
+      name: "Robert P.",
+      avatar: "R",
+      date: "1 month ago",
+      stars: 3,
+      title: "Good but maybe not for everyone",
+      body: "They work well and last longer, but for small apartments, one cloth might be overkill. The product is solid, but the value proposition is best for people with larger homes who clean frequently."
+    },
+    {
+      name: "Amanda W.",
+      avatar: "A",
+      date: "1 month ago",
+      stars: 5,
+      title: "Finally feels like a premium product",
+      body: "The quality is noticeably better than standard Swiffer cloths. The packaging is nice, the cloths are thicker, they work better. For the first time, wet mopping doesn't feel like a chore."
+    },
+    {
+      name: "Kevin D.",
+      avatar: "K",
+      date: "2 months ago",
+      stars: 4,
+      title: "Excellent upgrade, minor packaging issue",
+      body: "Product quality is fantastic and definitely outperforms regular refills. One cloth per clean is accurate for my apartment. Only minor issue was one cloth in my package was slightly damaged, but not a big deal."
+    },
+    {
+      name: "Nicole S.",
+      avatar: "N",
+      date: "2 months ago",
+      stars: 5,
+      title: "Worth the investment",
+      body: "I was worried about the higher price point, but after using them, I'm a complete convert. These cloths genuinely clean better, last longer, and save money. Best cleaning product upgrade I've made."
+    },
+    {
+      name: "Tom B.",
+      avatar: "T",
+      date: "2 months ago",
+      stars: 4,
+      title: "Great quality, as described",
+      body: "Does exactly what it promises. Cloths are thicker, stay wetter, clean more area. The main benefit for me is spending less time on floor maintenance. Would definitely recommend."
+    }
+  ];
+
+  // Initialize reviews
+  function initializeReviews() {
+    renderReviews(reviewsData);
+  }
+
+  // Render reviews
+  function renderReviews(reviews) {
+    const grid = document.getElementById('reviewsGrid');
+    grid.innerHTML = '';
+    
+    reviews.forEach(review => {
+      const stars = '★'.repeat(review.stars) + '☆'.repeat(5 - review.stars);
+      const card = document.createElement('div');
+      card.className = 'review-card';
+      card.innerHTML = `
+        <div class="review-header">
+          <div class="review-avatar">${review.avatar}</div>
+          <div class="review-info">
+            <div class="review-name">${review.name}</div>
+            <div class="review-date">${review.date}</div>
+          </div>
+        </div>
+        <div class="review-stars">${stars}</div>
+        <div class="review-sample-label">Sample Review</div>
+        <div class="review-title">${review.title}</div>
+        <div class="review-body">${review.body}</div>
+      `;
+      grid.appendChild(card);
+    });
+  }
+
+  // Filter reviews
+  function filterReviews() {
+    const filter = document.getElementById('filterSelect').value;
+    const sort = document.getElementById('sortSelect').value;
+    
+    let filtered = reviewsData;
+    if (filter) {
+      filtered = reviewsData.filter(r => r.stars === parseInt(filter));
+    }
+    
+    sortReviewsArray(filtered, sort);
+  }
+
+  // Sort reviews
+  function sortReviews() {
+    const filter = document.getElementById('filterSelect').value;
+    const sort = document.getElementById('sortSelect').value;
+    
+    let filtered = reviewsData;
+    if (filter) {
+      filtered = reviewsData.filter(r => r.stars === parseInt(filter));
+    }
+    
+    sortReviewsArray(filtered, sort);
+  }
+
+  // Sort reviews array
+  function sortReviewsArray(reviews, sort) {
+    let sorted = [...reviews];
+    
+    if (sort === 'highest') {
+      sorted.sort((a, b) => b.stars - a.stars);
+    } else if (sort === 'lowest') {
+      sorted.sort((a, b) => a.stars - b.stars);
+    }
+    
+    renderReviews(sorted);
+  }
+
+  // Gallery functions
+  function changeImage(src, element) {
+    document.getElementById('mainImage').src = src;
+    document.querySelectorAll('.thumb').forEach(t => t.classList.remove('active'));
+    element.classList.add('active');
+  }
+
+  // Quantity selector
+  function increaseQty() {
+    const qty = document.getElementById('quantity');
+    qty.value = parseInt(qty.value) + 1;
+  }
+
+  function decreaseQty() {
+    const qty = document.getElementById('quantity');
+    if (parseInt(qty.value) > 1) {
+      qty.value = parseInt(qty.value) - 1;
+    }
+  }
+
+  // Add to cart
+  function addToCart() {
+    const qty = parseInt(document.getElementById('quantity').value);
+    cartItems.push({
+      name: 'Mop & Go MAX',
+      price: 14.99,
+      quantity: qty,
+      date: new Date().toLocaleString()
+    });
+    
+    console.log('Item added to cart:', {
+      product: 'Mop & Go MAX',
+      price: '$14.99',
+      quantity: qty,
+      timestamp: new Date().toLocaleString()
+    });
+    
+    alert(`✓ Added ${qty} pack(s) of Mop & Go MAX to cart!\n\nPrice: $${(qty * 14.99).toFixed(2)}`);
+  }
+
+  // Open cart
+  function openCart() {
+    if (cartItems.length === 0) {
+      alert('Your cart is empty.');
+    } else {
+      let total = 0;
+      let summary = 'Cart Contents:\n\n';
+      cartItems.forEach((item, i) => {
+        const subtotal = item.price * item.quantity;
+        total += subtotal;
+        summary += `${i + 1}. ${item.name}\n   Quantity: ${item.quantity}\n   Subtotal: $${subtotal.toFixed(2)}\n\n`;
+      });
+      summary += `Total: $${total.toFixed(2)}`;
+      alert(summary);
+    }
+  }
+
+  // Accordion functions
+  function toggleAccordion(header) {
+    const isActive = header.classList.contains('active');
+    
+    // Close all accordion items
+    document.querySelectorAll('.accordion-header').forEach(h => {
+      h.classList.remove('active');
+      h.nextElementSibling.classList.remove('active');
+    });
+    
+    // Open clicked item if it wasn't active
+    if (!isActive) {
+      header.classList.add('active');
+      header.nextElementSibling.classList.add('active');
+    }
+  }
+
+  // Nested accordion
+  function toggleNestedAccordion(header) {
+    const isActive = header.classList.contains('active');
+    const content = header.nextElementSibling;
+    
+    if (isActive) {
+      header.classList.remove('active');
+      content.classList.remove('active');
+    } else {
+      header.classList.add('active');
+      content.classList.add('active');
+    }
+  }
+
+  // Smooth scroll navigation
+  function scrollToSection(id) {
+    const element = document.getElementById(id);
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth' });
+    }
+  }
+
+  // Keyboard accessibility for accordion
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter' || e.key === ' ') {
+      if (e.target.classList.contains('accordion-header')) {
+        e.preventDefault();
+        toggleAccordion(e.target);
+      } else if (e.target.classList.contains('nested-accordion-header')) {
+        e.preventDefault();
+        toggleNestedAccordion(e.target);
+      }
+    }
+  });
+
+  // Initialize on page load
+  document.addEventListener('DOMContentLoaded', () => {
+    initializeReviews();
+  });
+</script>
 </body>
 </html>
