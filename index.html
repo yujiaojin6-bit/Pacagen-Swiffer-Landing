@@ -1850,7 +1850,9 @@
       timestamp: new Date().toLocaleString()
     });
     
-    alert(`✓ Added ${qty} pack(s) of Mop & Go MAX to cart!\n\nPrice: $${(qty * 14.99).toFixed(2)}`);
+    // Update cart drawer and open it
+    updateCartUI();
+    openCartDrawer();
   }
 
   // Open cart
@@ -1925,8 +1927,250 @@
   // Initialize on page load
   document.addEventListener('DOMContentLoaded', () => {
     initializeReviews();
+    
+    // Setup quantity change listeners for cart
+    const qtyInput = document.getElementById('quantity');
+    if (qtyInput) {
+      qtyInput.addEventListener('change', updateCartUI);
+      qtyInput.addEventListener('input', updateCartUI);
+    }
   });
+
+  // Shopping Cart Drawer Functions
+  function openCartDrawer() {
+    document.getElementById('cartDrawer').classList.add('active');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeCartDrawer() {
+    document.getElementById('cartDrawer').classList.remove('active');
+    document.body.style.overflow = 'auto';
+  }
+
+  function updateCartUI() {
+    const qty = parseInt(document.getElementById('quantity').value);
+    const subtotal = qty * 14.99;
+    
+    // Update drawer product info
+    document.getElementById('cartQtyDisplay').textContent = qty;
+    document.getElementById('cartSubtotal').textContent = subtotal.toFixed(2);
+  }
+
+  function checkout() {
+    alert('Thank you for your interest in Mop & Go MAX! This is a prototype landing page. For actual purchase, please visit our store or contact us for updates.');
+    closeCartDrawer();
+  }
 </script>
+
+<!-- Shopping Cart Drawer -->
+<div id="cartDrawer" class="cart-drawer">
+  <div class="cart-overlay" onclick="closeCartDrawer()"></div>
+  <div class="cart-panel">
+    <div class="cart-header">
+      <h2>Your Cart</h2>
+      <button class="close-btn" onclick="closeCartDrawer()">✕</button>
+    </div>
+    
+    <div class="cart-content">
+      <div class="cart-product">
+        <img src="assets/product-1.png" alt="Mop & Go MAX" class="cart-product-image">
+        <div class="cart-product-details">
+          <h3>Mop & Go MAX</h3>
+          <p class="cart-price">$14.99 per pack</p>
+          <div class="cart-qty-info">
+            <span>Quantity: <strong id="cartQtyDisplay">1</strong> pack(s)</span>
+          </div>
+        </div>
+      </div>
+      
+      <div class="cart-subtotal">
+        <span>Subtotal:</span>
+        <span class="subtotal-amount">$<span id="cartSubtotal">14.99</span></span>
+      </div>
+      
+      <button class="cart-checkout-btn" onclick="checkout()">Proceed to Checkout</button>
+      
+      <p class="cart-notice">This is a prototype landing page. The checkout flow is not functional.</p>
+    </div>
+  </div>
+</div>
+
+<style>
+  /* Cart Drawer Styles */
+  .cart-drawer {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+    z-index: 9999;
+  }
+
+  .cart-drawer.active {
+    opacity: 1;
+    visibility: visible;
+  }
+
+  .cart-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    cursor: pointer;
+  }
+
+  .cart-panel {
+    position: fixed;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    width: 100%;
+    max-width: 450px;
+    background: white;
+    box-shadow: -2px 0 10px rgba(0, 0, 0, 0.15);
+    display: flex;
+    flex-direction: column;
+    transform: translateX(100%);
+    transition: transform 0.3s ease;
+    z-index: 10000;
+  }
+
+  .cart-drawer.active .cart-panel {
+    transform: translateX(0);
+  }
+
+  .cart-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    border-bottom: 1px solid #e0e0e0;
+  }
+
+  .cart-header h2 {
+    margin: 0;
+    font-size: 1.5rem;
+    color: var(--green-dark);
+  }
+
+  .close-btn {
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+    color: #666;
+    padding: 0;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .close-btn:hover {
+    color: var(--green-dark);
+  }
+
+  .cart-content {
+    flex: 1;
+    overflow-y: auto;
+    padding: 30px 20px;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .cart-product {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 30px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid #e0e0e0;
+  }
+
+  .cart-product-image {
+    width: 80px;
+    height: 80px;
+    object-fit: cover;
+    border-radius: 4px;
+    background: #f5f5f5;
+  }
+
+  .cart-product-details {
+    flex: 1;
+  }
+
+  .cart-product-details h3 {
+    margin: 0 0 8px 0;
+    font-size: 1rem;
+    color: var(--green-dark);
+  }
+
+  .cart-price {
+    color: #888;
+    font-size: 0.9rem;
+    margin: 0 0 12px 0;
+  }
+
+  .cart-qty-info {
+    font-size: 0.9rem;
+    color: #555;
+  }
+
+  .cart-subtotal {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 0;
+    margin-bottom: 20px;
+    border-top: 1px solid #e0e0e0;
+    border-bottom: 1px solid #e0e0e0;
+    font-weight: 600;
+    color: var(--green-dark);
+  }
+
+  .subtotal-amount {
+    font-size: 1.3rem;
+    color: var(--green-dark);
+  }
+
+  .cart-checkout-btn {
+    background: var(--green-dark);
+    color: white;
+    border: none;
+    padding: 14px 20px;
+    font-size: 1rem;
+    font-weight: 600;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-bottom: 15px;
+    transition: background 0.3s ease;
+  }
+
+  .cart-checkout-btn:hover {
+    background: #052d23;
+  }
+
+  .cart-notice {
+    font-size: 0.85rem;
+    color: #999;
+    text-align: center;
+    margin: 0;
+    font-style: italic;
+  }
+
+  @media (max-width: 600px) {
+    .cart-panel {
+      max-width: 100%;
+    }
+  }
+</style>
+
 </body>
 </html>
 
