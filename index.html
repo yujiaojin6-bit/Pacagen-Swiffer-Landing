@@ -111,15 +111,66 @@
       gap: 16px;
     }
     
-    .main-image {
+    .main-image-container {
+      position: relative;
       background: var(--cream);
       border-radius: 8px;
+      overflow: hidden;
+    }
+    
+    .main-image {
+      background: var(--cream);
       padding: 20px;
       display: flex;
       align-items: center;
       justify-content: center;
       height: 400px;
       min-height: 400px;
+    }
+    
+    .gallery-arrow {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background: rgba(255, 255, 255, 0.9);
+      border: 2px solid var(--green-dark);
+      border-radius: 50%;
+      width: 50px;
+      height: 50px;
+      font-size: 32px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--green-dark);
+      z-index: 10;
+      transition: all 0.3s;
+    }
+    
+    .gallery-arrow:hover {
+      background: var(--green-dark);
+      color: white;
+    }
+    
+    .gallery-arrow.prev {
+      left: 15px;
+    }
+    
+    .gallery-arrow.next {
+      right: 15px;
+    }
+    
+    .image-counter {
+      position: absolute;
+      bottom: 15px;
+      right: 15px;
+      background: rgba(7, 62, 47, 0.8);
+      color: white;
+      padding: 8px 12px;
+      border-radius: 4px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      z-index: 10;
     }
     
     .main-image img {
@@ -1078,8 +1129,15 @@
 <!-- HERO SECTION -->
 <section class="hero" id="product">
   <div class="hero-gallery">
-    <div class="main-image">
-      <img id="mainImage" src="assets/product-1.png" alt="Mop & Go MAX" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22300%22 height=%22300%22%3E%3Crect fill=%22%23F8F9F4%22 width=%22300%22 height=%22300%22/%3E%3Ctext x=%2250%25%22 y=%2250%25%22 text-anchor=%22middle%22 dy=%22.3em%22 font-family=%22Arial%22 font-size=%2220%22 fill=%22%23666%22%3EProduct Image%3C/text%3E%3C/svg%3E'">
+    <div class="main-image-container">
+      <button class="gallery-arrow prev" onclick="prevImage()" aria-label="Previous image">‹</button>
+      <div class="main-image">
+        <img id="mainImage" src="assets/product-1.png" alt="Mop & Go MAX" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22300%22 height=%22300%22%3E%3Crect fill=%22%23F8F9F4%22 width=%22300%22 height=%22300%22/%3E%3Ctext x=%2250%25%22 y=%2250%25%22 text-anchor=%22middle%22 dy=%22.3em%22 font-family=%22Arial%22 font-size=%2220%22 fill=%22%23666%22%3EProduct Image%3C/text%3E%3C/svg%3E'">
+      </div>
+      <button class="gallery-arrow next" onclick="nextImage()" aria-label="Next image">›</button>
+      <div class="image-counter">
+        <span id="currentImageIndex">1</span> / <span id="totalImages">5</span>
+      </div>
     </div>
     <div class="thumbnails">
       <div class="thumb active" onclick="changeImage('assets/product-1.png', this)">
@@ -1690,7 +1748,43 @@
     document.getElementById('mainImage').src = src;
     document.querySelectorAll('.thumb').forEach(t => t.classList.remove('active'));
     element.classList.add('active');
+    // Update current index based on clicked element
+    currentImageIndex = Array.from(document.querySelectorAll('.thumb')).indexOf(element);
+    updateImageCounter();
   }
+  
+  // Gallery navigation
+  let currentImageIndex = 0;
+  const imageFiles = ['assets/product-1.png', 'assets/product-2.png', 'assets/product-3.jpg', 'assets/product-4.png', 'assets/product-5.gif'];
+  
+  function nextImage() {
+    currentImageIndex = (currentImageIndex + 1) % imageFiles.length;
+    const thumbs = document.querySelectorAll('.thumb');
+    if (thumbs[currentImageIndex]) {
+      changeImage(imageFiles[currentImageIndex], thumbs[currentImageIndex]);
+    }
+  }
+  
+  function prevImage() {
+    currentImageIndex = (currentImageIndex - 1 + imageFiles.length) % imageFiles.length;
+    const thumbs = document.querySelectorAll('.thumb');
+    if (thumbs[currentImageIndex]) {
+      changeImage(imageFiles[currentImageIndex], thumbs[currentImageIndex]);
+    }
+  }
+  
+  function updateImageCounter() {
+    document.getElementById('currentImageIndex').textContent = currentImageIndex + 1;
+  }
+  
+  // Keyboard navigation
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'ArrowRight') nextImage();
+    if (e.key === 'ArrowLeft') prevImage();
+  });
+  
+  // Initialize counter
+  updateImageCounter();
 
   // Quantity selector
   function increaseQty() {
