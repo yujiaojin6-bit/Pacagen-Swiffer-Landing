@@ -183,6 +183,14 @@
       line-height: 1.8;
     }
     
+    .hero-tagline {
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: var(--green-lime);
+      margin-bottom: 20px;
+      letter-spacing: 0.3px;
+    }
+    
     .benefits-list {
       display: flex;
       gap: 16px;
@@ -1094,17 +1102,19 @@
   
   <div class="hero-info">
     <h1>Mop & Go MAX</h1>
-    <p class="subtitle">Thicker Wet Cloth Refills | 12 Count</p>
+    <p class="subtitle">Thicker Wet Cloth Refills for Swiffer Sweeper Mops | 12 Count</p>
     <div class="hero-price">$14.99</div>
     
     <p class="hero-description">
-      Meet Mop & Go MAX, a thicker wet cloth refill designed to hold moisture longer, cover more floor, and reduce mid-clean interruptions. Keep the mop you already own. Just upgrade the cloth.
+      Meet Mop & Go MAX, a thicker wet cloth refill designed to hold moisture longer, cover more floor, and reduce constant cloth changes.
     </p>
     
+    <p class="hero-tagline">Same Mop. Thicker Cloth. Longer-Lasting Clean.</p>
+    
     <div class="benefits-list">
-      <span class="benefit">✓ Stay Wet Longer</span>
-      <span class="benefit">✓ Clean More Floor</span>
-      <span class="benefit">✓ Fewer Cloth Changes</span>
+      <span class="benefit">✓ Stays Wet 10× Longer*</span>
+      <span class="benefit">✓ Covers 10× More Floor Area*</span>
+      <span class="benefit">✓ Fewer Interruptions</span>
     </div>
     
     <div class="qty-selector">
@@ -1114,15 +1124,9 @@
       <button class="qty-btn" onclick="increaseQty()">+</button>
     </div>
     
-    <button class="add-to-cart-btn" onclick="addToCart()">ADD TO CART</button>
+    <button class="add-to-cart-btn" onclick="addToCart()">ADD TO CART · $14.99</button>
     
-    <p class="hero-note">ⓘ Concept product. Proposed pricing and performance.</p>
-    
-    <div class="trust-badges">
-      <span class="badge">✓ Free Shipping</span>
-      <span class="badge">✓ 30-Day Guarantee</span>
-      <span class="badge">✓ Made in USA</span>
-    </div>
+    <p class="hero-note">*10× figures are unverified design targets</p>
   </div>
 </section>
 
@@ -1275,7 +1279,7 @@
         <span class="accordion-toggle">▼</span>
       </button>
       <div class="accordion-content">
-        <p>Mop & Go MAX represents the next generation of wet cloth refills. Engineered with a thicker, more absorbent material, MAX cloths are designed to hold moisture longer and clean more floor per cloth compared to standard wet cloth refills. Each package contains 12 premium cloths sized to fit standard Swiffer Sweeper mops.</p>
+        <p>Mop & Go MAX is a concept for thicker, disposable, pre-moistened wet cloth refills. The design aims to retain moisture longer, clean more floor per cloth, and reduce repeated interruptions during mopping. It is intended to upgrade the Swiffer Sweeper cleaning routine without replacing the mop.</p>
       </div>
     </div>
     
@@ -1285,12 +1289,9 @@
         <span class="accordion-toggle">▼</span>
       </button>
       <div class="accordion-content">
-        <p>Your package includes:</p>
-        <ul style="margin-left: 20px; margin-top: 10px;">
-          <li>12 Mop & Go MAX wet cloth refills</li>
-          <li>Individually packaged for freshness</li>
-          <li>Ready to attach to your existing Swiffer Sweeper</li>
-        </ul>
+        <p>12 Mop & Go MAX disposable wet cloth refills.</p>
+        <p style="margin-top: 10px;">Mop and handle not included.</p>
+        <p style="margin-top: 10px;">Proposed retail price: $14.99.</p>
       </div>
     </div>
     
@@ -1300,7 +1301,8 @@
         <span class="accordion-toggle">▼</span>
       </button>
       <div class="accordion-content">
-        <p>Mop & Go MAX wet cloths are compatible with all standard Swiffer Sweeper mops and handles. The attachment mechanism uses the same velcro-style fastening system as the original Swiffer wet cloths, ensuring seamless integration with your existing cleaning setup.</p>
+        <p>Mop & Go MAX is designed as a disposable wet cloth refill for the Swiffer Sweeper flat mop. It is intended to attach using the existing Sweeper cloth-gripping system, without requiring a new mop or additional accessories.</p>
+        <p style="margin-top: 10px;">Final fit and compatibility require prototype testing.</p>
       </div>
     </div>
     
@@ -1310,10 +1312,16 @@
         <span class="accordion-toggle">▼</span>
       </button>
       <div class="accordion-content">
-        <p><strong>Advanced Fabric Technology:</strong> Thicker, multi-layer construction designed to absorb and retain more moisture.</p>
-        <p style="margin-top: 10px;"><strong>Extended Wet Life:</strong> Maintains optimal moisture levels for longer cleaning sessions, reducing the need for frequent cloth changes.</p>
-        <p style="margin-top: 10px;"><strong>Superior Coverage:</strong> Each cloth covers more floor area, reducing the total number of cloths needed per cleaning session.</p>
-        <p style="margin-top: 10px;"><strong>Cost Efficient:</strong> Though higher cost per package, the dramatic reduction in cloths per clean results in significant savings over time.</p>
+        <p><strong>Moisture Retention</strong></p>
+        <p>Thicker cloth construction designed to hold moisture longer during cleaning.</p>
+        
+        <p style="margin-top: 15px;"><strong>Floor Coverage</strong></p>
+        <p>Designed to cover more floor area before a fresh refill is needed.</p>
+        
+        <p style="margin-top: 15px;"><strong>Fewer Interruptions</strong></p>
+        <p>Fewer cloth changes can mean less stopping and bending down during a cleaning session.</p>
+        
+        <p style="margin-top: 15px; font-size: 0.9em; color: #666;"><em>*10× wetness and coverage figures are unverified concept targets.</em></p>
       </div>
     </div>
     
@@ -1339,61 +1347,51 @@
         <div class="nested-accordion">
           <div class="nested-accordion-item">
             <button class="nested-accordion-header" onclick="toggleNestedAccordion(this)">
-              <span>Are MAX cloths compatible with my Swiffer?</span>
+              <span>Do I need to buy a new mop?</span>
               <span class="accordion-toggle">▼</span>
             </button>
             <div class="nested-accordion-content">
-              Yes, MAX cloths are designed to work with all standard Swiffer Sweeper mops and handles using the same velcro-style attachment system as original Swiffer wet cloths.
+              No. MAX is designed as a refill upgrade for the Swiffer Sweeper you already own. Final compatibility would be confirmed through prototype testing.
             </div>
           </div>
           
           <div class="nested-accordion-item">
             <button class="nested-accordion-header" onclick="toggleNestedAccordion(this)">
-              <span>How long does one MAX cloth last?</span>
+              <span>How many cloths come in one pack?</span>
               <span class="accordion-toggle">▼</span>
             </button>
             <div class="nested-accordion-content">
-              MAX cloths are engineered to clean an average-sized home in a single cloth, compared to approximately 12 standard cloths. Duration depends on home size, floor type, and cleaning intensity.
+              Each proposed MAX pack contains 12 disposable wet cloth refills.
             </div>
           </div>
           
           <div class="nested-accordion-item">
             <button class="nested-accordion-header" onclick="toggleNestedAccordion(this)">
-              <span>How much money can I save?</span>
+              <span>Is MAX reusable or washable?</span>
               <span class="accordion-toggle">▼</span>
             </button>
             <div class="nested-accordion-content">
-              Assuming an average clean uses 12 original cloths at ~$5 per clean, switching to MAX at ~$1.25 per clean saves approximately $3.75 per clean, or roughly $180 per year for weekly cleaning.
+              No. MAX is designed as a disposable, pre-moistened wet cloth refill.
             </div>
           </div>
           
           <div class="nested-accordion-item">
             <button class="nested-accordion-header" onclick="toggleNestedAccordion(this)">
-              <span>Are MAX cloths eco-friendly?</span>
+              <span>Can one MAX cloth clean my whole floor?</span>
               <span class="accordion-toggle">▼</span>
             </button>
             <div class="nested-accordion-content">
-              By using fewer cloths per clean, MAX cloths reduce overall waste and consumption compared to standard refills. Made from recyclable materials and designed to minimize environmental impact.
+              That is the intended product goal. Actual coverage would depend on floor area, cleaning conditions, and verified product performance.
             </div>
           </div>
           
           <div class="nested-accordion-item">
             <button class="nested-accordion-header" onclick="toggleNestedAccordion(this)">
-              <span>Do MAX cloths work on all floor types?</span>
+              <span>Why does MAX cost more per pack?</span>
               <span class="accordion-toggle">▼</span>
             </button>
             <div class="nested-accordion-content">
-              Yes, MAX cloths are safe and effective on all sealed hard floors including tile, laminate, vinyl, and hardwood. Always follow floor manufacturer recommendations for wet-cleaning.
-            </div>
-          </div>
-          
-          <div class="nested-accordion-item">
-            <button class="nested-accordion-header" onclick="toggleNestedAccordion(this)">
-              <span>What's your satisfaction guarantee?</span>
-              <span class="accordion-toggle">▼</span>
-            </button>
-            <div class="nested-accordion-content">
-              We offer a 30-day money-back guarantee. If you're not satisfied with MAX cloths for any reason, simply return your purchase for a full refund, no questions asked.
+              The proposed thicker cloth is intended to last longer during a cleaning session. If fewer cloths are needed, the cost per cleaning session could be lower despite the higher pack price.
             </div>
           </div>
         </div>
